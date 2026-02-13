@@ -1,0 +1,11 @@
+def repeatedNumber(self, A):
+        n=len(A)
+        array_sum=sum(A)
+        f_array_sum=(n*(n+1))//2
+        x = array_sum-f_array_sum # X=A-B
+        f_array_sq_sum=((n*(n+1))*((2*n)+1))//6
+        array_sq_sum=sum([x*x for x in A])
+        y=(array_sq_sum-f_array_sq_sum)//x# A+B
+        n1=(x+y)//2
+        n2=n1-x
+        return n1,n2
