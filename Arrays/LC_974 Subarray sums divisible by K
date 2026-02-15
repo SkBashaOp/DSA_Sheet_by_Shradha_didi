@@ -1,0 +1,40 @@
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        count=0
+        for i in range(1,n):
+            nums[i]+=nums[i-1]
+        for i in range(n):
+            for j in range(i,n):
+                if(i==0):
+                    sum=nums[j]
+                else:
+                    sum=nums[j]-nums[i-1]
+                if(sum%k==0):
+                    count+=1            
+        return count            
+
+OPTIMAL Approach
+
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int,int> mp;
+        int sum=0;
+        mp[0]=1;
+        int result=0;
+        for(int i=0;i<n;i++){
+            sum+=nums[i];
+            int rem= sum%k;
+            if(rem<0){
+                rem+=k;
+            }
+            if(mp.find(rem)!=mp.end()){
+                result+=mp[rem];
+            }
+            mp[rem]++;
+        }
+    return result;    
+    }
+};
