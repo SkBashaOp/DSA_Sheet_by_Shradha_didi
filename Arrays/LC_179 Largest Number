@@ -1,5 +1,5 @@
 class Solution:
-    def largestNumber(self, nums: List[int]) -> str:
+	def findLargest(self, nums):
         for i,n in enumerate(nums):
             nums[i]=str(n)
         def compare(n1,n2):
@@ -7,5 +7,8 @@ class Solution:
                 return -1
             else:
                 return 1        
-        nums=sorted(nums,key=cmp_to_key(compare)) 
-        return str(int("".join(nums)))   
+        nums.sort(key=cmp_to_key(compare)) 
+        result = ''.join(nums)
+        if result[0] == '0':
+            return '0'
+        return result
