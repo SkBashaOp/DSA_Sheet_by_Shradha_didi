@@ -1,0 +1,5 @@
+with cte as (select activity,count(*) as cnt from friends
+group by activity)
+select activity from cte 
+where cnt not in(select max(cnt) from cte)
+and cnt not in(select min(cnt) from cte)
