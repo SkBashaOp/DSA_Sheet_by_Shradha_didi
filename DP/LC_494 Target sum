@@ -1,0 +1,22 @@
+//Variation of 0/1 knapsack
+all positive values in the one subset and all negative values in another subset
+s1-s2=target
+s1=sum+target/2
+
+from typing import List
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        S = sum(nums)
+        memo = {}
+        def solve(i, curr_sum):
+            if i == n:
+                return 1 if curr_sum == target else 0
+            if (i, curr_sum) in memo:
+                return memo[(i, curr_sum)]
+            plus = solve(i + 1, curr_sum + nums[i])
+            minus = solve(i + 1, curr_sum - nums[i])
+            memo[(i, curr_sum)] = plus + minus
+            return memo[(i, curr_sum)]
+
+        return solve(0, 0)
