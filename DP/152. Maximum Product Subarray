@@ -1,0 +1,19 @@
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        current_min = nums[0]
+        current_max = nums[0]
+        result = nums[0]
+        
+        for i in range(1, len(nums)):
+            cur = nums[i]
+            
+            candidates = (cur, cur * current_max, cur * current_min)
+            
+            current_max = max(candidates)
+            current_min = min(candidates)
+            
+            result = max(result, current_max)
+            
+        return result
