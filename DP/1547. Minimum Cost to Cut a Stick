@@ -1,0 +1,57 @@
+class Solution:
+    def findMinimumCost(self, i, j, cuts):
+        if i > j:
+            return 0
+        mini = float('inf')
+        for ind in range(i, j + 1):
+            ans = cuts[j + 1] - cuts[i - 1] + \
+                  self.findMinimumCost(i, ind - 1, cuts) + \
+                  self.findMinimumCost(ind + 1, j, cuts)
+            mini = min(mini, ans)
+        return mini
+    def minimumCost(self, n, cuts):
+        cuts.append(n)
+        cuts.insert(0, 0)
+        cuts.sort()
+
+        return self.findMinimumCost(1, len(cuts) - 2, cuts)
+
+
+//Memo
+class Solution:
+    def findMinimumCost(self, i, j, cuts, dp):
+        if i > j:
+            return 0
+
+        if dp[i][j] != -1:
+            return dp[i][j]
+
+        mini = float('inf')
+
+        for ind in range(i, j + 1):
+            ans = cuts[j + 1] - cuts[i - 1] + \
+                  self.findMinimumCost(i, ind - 1, cuts, dp) + \
+                  self.findMinimumCost(ind + 1, j, cuts, dp)
+
+            mini = min(mini, ans)
+
+        dp[i][j] = mini
+        return mini
+
+    def minimumCost(self, n, cuts):
+        cuts.append(n)
+        cuts.insert(0, 0)
+        cuts.sort()
+
+        c = len(cuts) - 2
+        dp = [[-1] * (c + 2) for _ in range(c + 2)]
+
+        return self.findMinimumCost(1, c, cuts, dp)
+
+
+if __name__ == "__main__":
+    cuts = [3, 5, 1, 4]
+    n = 7
+
+    sol = Solution()
+    print("The minimum cost incurred is:", sol.minimumCost(n, cuts))
