@@ -1,1 +1,49 @@
 
+class Solution:
+    def superEggDrop(self, e, f):
+        count = [[0] * (f + 1) for _ in range(e + 1)]
+
+        for i in range(e + 1):
+            for j in range(f + 1):
+                if i == 0:
+                    count[i][j] = float('inf')
+                elif i == 1:
+                    count[i][j] = j
+                
+                if j == 0:
+                    count[i][j] = 0
+                elif j == 1 and i > 0:
+                    count[i][j] = 1
+                    
+                if i > 1 and j > 1:
+                    min_trials = float('inf')
+                    
+                    for k in range(1, j + 1):
+                        # max_trial = max(egg breaks, egg survives)
+                        max_trial = max(count[i - 1][k - 1], count[i][j - k])
+                        
+                        if max_trial < min_trials:
+                            min_trials = max_trial
+                            
+                    count[i][j] = 1 + min_trials
+
+        return count[e][f]
+
+
+class Solution:
+    def superEggDrop(self, e: int, f: int) -> int:
+        # dp[t][e] = maximum floors we can check with t trials and e eggs
+        # We use a 1D array to save space: dp[e]
+        dp = [0] * (e + 1)
+        trials = 0
+        
+        while dp[e] < f:
+            trials += 1
+            # Iterate backwards to use values from the previous 'trial'
+            for egg in range(e, 0, -1):
+                # The recurrence: 
+                # One egg breaks (check floors below) + 
+                # One egg survives (check floors above) + 1 (current floor)
+                dp[egg] = dp[egg - 1] + dp[egg] + 1
+                
+        return trials
