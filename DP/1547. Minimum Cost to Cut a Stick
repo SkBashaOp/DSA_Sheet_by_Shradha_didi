@@ -1,57 +1,38 @@
-class Solution:
+class Solution(object):
     def findMinimumCost(self, i, j, cuts):
         if i > j:
             return 0
         mini = float('inf')
         for ind in range(i, j + 1):
-            ans = cuts[j + 1] - cuts[i - 1] + \
+            ans = (cuts[j + 1] - cuts[i - 1]) + \
                   self.findMinimumCost(i, ind - 1, cuts) + \
                   self.findMinimumCost(ind + 1, j, cuts)
             mini = min(mini, ans)
         return mini
-    def minimumCost(self, n, cuts):
+
+    def minCost(self, n, cuts):
         cuts.append(n)
         cuts.insert(0, 0)
         cuts.sort()
-
         return self.findMinimumCost(1, len(cuts) - 2, cuts)
 
 
-//Memo
+//Tabu
 class Solution:
-    def findMinimumCost(self, i, j, cuts, dp):
-        if i > j:
-            return 0
-
-        if dp[i][j] != -1:
-            return dp[i][j]
-
-        mini = float('inf')
-
-        for ind in range(i, j + 1):
-            ans = cuts[j + 1] - cuts[i - 1] + \
-                  self.findMinimumCost(i, ind - 1, cuts, dp) + \
-                  self.findMinimumCost(ind + 1, j, cuts, dp)
-
-            mini = min(mini, ans)
-
-        dp[i][j] = mini
-        return mini
-
-    def minimumCost(self, n, cuts):
+    def minCost(self, n, cuts):
         cuts.append(n)
         cuts.insert(0, 0)
         cuts.sort()
 
         c = len(cuts) - 2
-        dp = [[-1] * (c + 2) for _ in range(c + 2)]
+        dp = [[0] * (c + 2) for _ in range(c + 2)]
 
-        return self.findMinimumCost(1, c, cuts, dp)
+        for i in range(c, 0, -1):
+            for j in range(i, c + 1):
+                mini = float('inf')
+                for ind in range(i, j + 1):
+                    ans = (cuts[j + 1] - cuts[i - 1]) + dp[i][ind - 1] + dp[ind + 1][j]
+                    mini = min(mini, ans)
+                dp[i][j] = mini
 
-
-if __name__ == "__main__":
-    cuts = [3, 5, 1, 4]
-    n = 7
-
-    sol = Solution()
-    print("The minimum cost incurred is:", sol.minimumCost(n, cuts))
+        return dp[1][c]
