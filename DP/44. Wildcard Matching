@@ -1,0 +1,41 @@
+s1[i]==s2[j] || s[i]1=='?'
+ return f(i-1,j-1)
+s1[i]=='*'
+ return f(i-1,j) || f(i.j-1)
+return false
+if i<0 && j<0
+ return true
+if i<0 && j>=0:
+  return false
+if j<0 && i>=0:  
+  for i in range:
+    if s[i]!='*'
+      return false
+  return true
+
+
+from functools import cache
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        @cache
+        def f(i, j):
+            if i < 0 and j < 0:
+                return True
+            if j < 0 and i >= 0:
+                return False
+            if i < 0 and j >= 0:
+                for idx in range(j + 1):
+                    if p[idx] != '*':
+                        return False
+                return True
+            if s[i] == p[j] or p[j] == '?':
+                return f(i - 1, j - 1)
+            
+            if p[j] == '*':
+                return f(i, j - 1) or f(i - 1, j)
+            
+            return False
+
+        return f(len(s) - 1, len(p) - 1)
+
+
