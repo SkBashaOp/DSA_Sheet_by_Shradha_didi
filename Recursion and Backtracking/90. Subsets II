@@ -1,0 +1,20 @@
+//RECURSION Stack space
+//auxilary space to store subsets
+2**n T.C
+2**n *n S.C
+
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        results=[[]]
+        for num in nums:
+            temp=[]
+            for subset in results:
+                new_subset=subset+[num]
+                temp.append(new_subset)    
+            results+=temp  
+        set1=set()
+        for subset in results:
+            set1.add(tuple(subset)) 
+        final = [list(t) for t in set1] 
+        return final   
