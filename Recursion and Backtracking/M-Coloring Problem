@@ -1,0 +1,51 @@
+class Solution {
+  public:
+    // Helper function to check if the current color assignment is safe
+    bool isSafe(int node, int col, vector<int>& color, vector<vector<int>>& adj) {
+        // Check all neighbors of the current node
+        for (int neighbor : adj[node]) {
+            // If a neighbor already has the same color, it's not safe
+            if (color[neighbor] == col) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Recursive backtracking function
+    bool solve(int node, int v, int m, vector<int>& color, vector<vector<int>>& adj) {
+        // Base case: If all nodes are colored, return true
+        if (node == v) {
+            return true;
+        }
+
+        // Try assigning colors from 1 to m
+        for (int i = 1; i <= m; i++) {
+            if (isSafe(node, i, color, adj)) {
+                color[node] = i; // Assign color
+                
+                // Recur for the next node
+                if (solve(node + 1, v, m, color, adj)) return true;
+                
+                color[node] = 0; // Backtrack (reset)
+            }
+        }
+
+        return false;
+    }
+
+    bool graphColoring(int v, vector<vector<int>> &edges, int m) {
+        // 1. Create an Adjacency List from the edges provided
+        vector<vector<int>> adj(v);
+        for (auto& edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+
+        // 2. Initialize all nodes with color 0 (uncolored)
+        vector<int> color(v, 0);
+
+        // 3. Start solving from the first node (node 0)
+        return solve(0, v, m, color, adj);
+    }
+};
