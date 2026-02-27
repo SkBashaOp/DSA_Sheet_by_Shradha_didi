@@ -14,3 +14,50 @@ class Solution:
     def findMaxSum(self, arr):
         n = len(arr)
         return self.maxLootRec(arr, n)
+//memo
+class Solution:
+    def maxLootRec(self, arr, n, dp):
+        if n <= 0:
+            return 0
+        
+        if n == 1:
+            return arr[0]
+        
+        if dp[n] != -1:
+            return dp[n]
+
+        pick = arr[n - 1] + self.maxLootRec(arr, n - 2, dp)
+        notPick = self.maxLootRec(arr, n - 1, dp)
+
+        dp[n] = max(pick, notPick)
+        return dp[n]
+
+    def findMaxSum(self, arr):
+        n = len(arr)
+        dp = [-1] * (n + 1)
+        return self.maxLootRec(arr, n, dp)
+
+
+//bottom-up
+
+class Solution:
+    def findMaxSum(self, arr):
+        n = len(arr)
+        
+        if n == 0:
+            return 0
+        if n == 1:
+            return arr[0]
+
+        dp = [0] * n
+        dp[0] = arr[0]
+        dp[1] = max(arr[0], arr[1])
+
+        for i in range(2, n):
+            dp[i] = max(arr[i] + dp[i-2], dp[i-1])
+            # Option 1 → Rob this house → arr[i] + dp[i-2]
+            # Option 2 → Skip this house → dp[i-1]
+
+        return dp[n-1]
+
+//
