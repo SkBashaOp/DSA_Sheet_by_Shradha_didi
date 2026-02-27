@@ -47,3 +47,6 @@ public:
         return ans;
     }
 };
+
+
+1. The Inner Part: string(n, '.')This is a specific C++ string constructor. It says: "Create a string that is n characters long, and fill every spot with a period .."If $n = 4$, this creates the string .....2. The Outer Part: vector<string> board(n, ...)This is the vector constructor. It says: "Create a vector containing n elements, and initialize each element with the value provided."Since the "value provided" is our string from step 1, it places that string into every row of the vector.Visualizing the ResultIf we assume $n = 4$, here is how that single line builds your board:IndexValue (String)board[0]"...."board[1]"...."board[2]"...."board[3]"...."
