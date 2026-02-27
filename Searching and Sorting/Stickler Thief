@@ -1,0 +1,16 @@
+class Solution:  
+    def maxLootRec(self,arr, n):
+        if n <= 0:
+            return 0
+      
+        if n == 1:
+            return arr[0]
+    
+        pick = arr[n - 1] + self.maxLootRec(arr, n - 2)
+        notPick = self.maxLootRec(arr, n - 1)
+        
+        return max(pick, notPick)
+    
+    def findMaxSum(self, arr):
+        n = len(arr)
+        return self.maxLootRec(arr, n)
