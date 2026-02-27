@@ -1,0 +1,12 @@
+from collections import defaultdict
+class Solution:
+    def majorityElement(self, arr):
+        n=len(arr)
+        count=defaultdict(int)
+        for num in arr:
+            count[num]+=1
+        for k,v in count.items():
+            if v>n//2:
+                return k
+        return -1        
+        
