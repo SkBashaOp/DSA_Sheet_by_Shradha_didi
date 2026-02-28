@@ -1,0 +1,35 @@
+import heapq
+
+class MedianFinder:
+
+    def __init__(self):
+        # leftMaxHeap (max heap) → store negatives
+        self.leftMaxHeap = []
+        
+        # rightMinHeap (min heap)
+        self.rightMinHeap = []
+
+    def addNum(self, num: int) -> None:
+        
+        # Step 1: Insert into correct heap
+        if not self.leftMaxHeap or num < -self.leftMaxHeap[0]:
+            heapq.heappush(self.leftMaxHeap, -num)
+        else:
+            heapq.heappush(self.rightMinHeap, num)
+
+        # Step 2: Balance heaps
+        
+        # If size difference > 1
+        if abs(len(self.leftMaxHeap) - len(self.rightMinHeap)) > 1:
+            heapq.heappush(self.rightMinHeap, -heapq.heappop(self.leftMaxHeap))
+        
+        # If right side bigger
+        elif len(self.leftMaxHeap) < len(self.rightMinHeap):
+            heapq.heappush(self.leftMaxHeap, -heapq.heappop(self.rightMinHeap))
+
+    def findMedian(self) -> float:
+        
+        if len(self.leftMaxHeap) == len(self.rightMinHeap):
+            return (-self.leftMaxHeap[0] + self.rightMinHeap[0]) / 2.0
+        
+        return float(-self.leftMaxHeap[0])
