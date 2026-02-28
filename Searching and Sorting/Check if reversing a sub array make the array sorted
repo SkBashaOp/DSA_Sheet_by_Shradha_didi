@@ -1,0 +1,25 @@
+def canBeSortedByReversing(arr):
+    n = len(arr)
+    
+    # Step 1: If already sorted
+    if arr == sorted(arr):
+        return "Yes"
+    
+    # Step 2: Find first index where order breaks
+    start = 0
+    while start < n - 1 and arr[start] < arr[start + 1]:
+        start += 1
+    
+    # Step 3: Find last index where order breaks
+    end = n - 1
+    while end > 0 and arr[end] > arr[end - 1]:
+        end -= 1
+    
+    # Step 4: Reverse that subarray
+    arr[start:end+1] = arr[start:end+1][::-1]
+    
+    # Step 5: Check again
+    if arr == sorted(arr):
+        return "Yes"
+    else:
+        return "No"
