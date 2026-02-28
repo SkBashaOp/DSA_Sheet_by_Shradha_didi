@@ -29,30 +29,71 @@ class Solution:
 import heapq
 
 class Solution:
-    def getMedians(self, arr):
-        max_heap = []  # for smaller half (as negative values)
-        min_heap = []  # for larger half
+    def getMedian(self, arr):
+        
+        leftMaxHeap = []  # max heap (store negatives)
+        rightMinHeap = [] # min heap
         
         result = []
         
         for num in arr:
             
-            # Step 1: Add number
-            heapq.heappush(max_heap, -num)
-            
-            # Step 2: Balance heaps (move largest from max_heap to min_heap)
-            heapq.heappush(min_heap, -heapq.heappop(max_heap))
-            
-            # Step 3: Ensure size property
-            if len(min_heap) > len(max_heap):
-                heapq.heappush(max_heap, -heapq.heappop(min_heap))
-            
-            # Step 4: Find median
-            if len(max_heap) > len(min_heap):
-                result.append(-max_heap[0])
+            # Insert into correct heap
+            if not leftMaxHeap or num < -leftMaxHeap[0]:
+                heapq.heappush(leftMaxHeap, -num)
             else:
-                result.append((-max_heap[0] + min_heap[0]) / 2)
+                heapq.heappush(rightMinHeap, num)
+            
+            # Balance sizes
+            if abs(len(leftMaxHeap) - len(rightMinHeap)) > 1:
+                heapq.heappush(rightMinHeap, -heapq.heappop(leftMaxHeap))
+            
+            elif len(leftMaxHeap) < len(rightMinHeap):
+                heapq.heappush(leftMaxHeap, -heapq.heappop(rightMinHeap))
+            
+            # Calculate current median
+            if len(leftMaxHeap) == len(rightMinHeap):
+                median = (-leftMaxHeap[0] + rightMinHeap[0]) / 2
+            else:
+                median = -leftMaxHeap[0]
+            
+            result.append(float(median))
         
         return result
+
+
+import heapq
+
+class MedianFinder:
+
+    def __init__(self):
+        # leftMaxHeap (max heap) → store negatives
+        self.leftMaxHeap = []
         
-        return result    
+        # rightMinHeap (min heap)
+        self.rightMinHeap = []
+
+    def addNum(self, num: int) -> None:
+        
+        # Step 1: Insert into correct heap
+        if not self.leftMaxHeap or num < -self.leftMaxHeap[0]:
+            heapq.heappush(self.leftMaxHeap, -num)
+        else:
+            heapq.heappush(self.rightMinHeap, num)
+
+        # Step 2: Balance heaps
+        
+        # If size difference > 1
+        if abs(len(self.leftMaxHeap) - len(self.rightMinHeap)) > 1:
+            heapq.heappush(self.rightMinHeap, -heapq.heappop(self.leftMaxHeap))
+        
+        # If right side bigger
+        elif len(self.leftMaxHeap) < len(self.rightMinHeap):
+            heapq.heappush(self.leftMaxHeap, -heapq.heappop(self.rightMinHeap))
+
+    def findMedian(self) -> float:
+        
+        if len(self.leftMaxHeap) == len(self.rightMinHeap):
+            return (-self.leftMaxHeap[0] + self.rightMinHeap[0]) / 2.0
+        
+        return float(-self.leftMaxHeap[0])
