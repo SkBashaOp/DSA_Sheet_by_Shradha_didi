@@ -1,0 +1,58 @@
+class Solution:
+    def getMedian(self, arr):
+        arr.sort()
+        n = len(arr)
+        
+        if n % 2 == 1:
+            return arr[n // 2]
+        else:
+            return (arr[n//2 - 1] + arr[n//2]) / 2
+
+class Solution:
+    def getMedian(self, arr):
+        result = []
+        temp = []
+        
+        for num in arr:
+            temp.append(num)
+            temp.sort()
+            n = len(temp)
+            
+            if n % 2 == 1:
+                median = temp[n // 2]
+            else:
+                median = (temp[n//2 - 1] + temp[n//2]) / 2
+            
+            result.append(float(median))
+
+
+import heapq
+
+class Solution:
+    def getMedians(self, arr):
+        max_heap = []  # for smaller half (as negative values)
+        min_heap = []  # for larger half
+        
+        result = []
+        
+        for num in arr:
+            
+            # Step 1: Add number
+            heapq.heappush(max_heap, -num)
+            
+            # Step 2: Balance heaps (move largest from max_heap to min_heap)
+            heapq.heappush(min_heap, -heapq.heappop(max_heap))
+            
+            # Step 3: Ensure size property
+            if len(min_heap) > len(max_heap):
+                heapq.heappush(max_heap, -heapq.heappop(min_heap))
+            
+            # Step 4: Find median
+            if len(max_heap) > len(min_heap):
+                result.append(-max_heap[0])
+            else:
+                result.append((-max_heap[0] + min_heap[0]) / 2)
+        
+        return result
+        
+        return result    
