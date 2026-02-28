@@ -1,0 +1,31 @@
+class Solution:
+    
+    def minSwaps(self,arr):
+        n = len(arr)
+        
+        # Step 1: store (value, original_index)
+        v = []
+        for i in range(n):
+            v.append((arr[i], i))
+        
+        # Step 2: sort based on value
+        v.sort()
+        
+        swaps = 0
+        i = 0
+        
+        while i < n:
+            value, index = v[i]
+            
+            # If element is not in correct position
+            if index != i:
+                swaps += 1
+                
+                # Swap current element with element at its correct index
+                v[i], v[index] = v[index], v[i]
+                
+                # Do not increment i, recheck this index
+            else:
+                i += 1
+        
+        return swaps
