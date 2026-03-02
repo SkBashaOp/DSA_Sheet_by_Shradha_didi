@@ -1,0 +1,24 @@
+def print_subarrays(arr):
+    n = len(arr)
+
+    for start in range(n):          # starting index
+        for end in range(start, n): # ending index
+            for i in range(start, end + 1):  # print elements
+                print(arr[i], end=" ")
+            print()  # new line after each subarray
+
+# Example
+arr = [1, 2, 3]
+print_subarrays(arr)
+
+
+def print_subarrays(arr):
+    n = len(arr)
+
+    for start in range(n):
+        for end in range(start, n):
+            print(arr[start:end+1])
+
+# Example
+arr = [1, 2, 3]
+print_subarrays(arr)
