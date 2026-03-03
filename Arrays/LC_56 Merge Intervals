@@ -24,6 +24,19 @@ class Solution:
             else:
                 merged.append([start,end]) 
                 start,end=start1,end1   
-        merged.append([start, end])        
+        merged.append([start, end])      
+
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda interval: interval[0])
+        merged=[]
+
+        for interval in intervals:
+            if not merged//if ntg in merged then append  or merged[-1][1] < interval[0]//non verlapping condition then merge it:
+                merged.append(interval)
+            else:
+                merged[-1]=[merged[-1][0]//last arr ka first box it should not change, max(merged[-1][1]//arr ka second box, interval[1]//interval ka second box)]  
+        return merged
         return merged                
         
