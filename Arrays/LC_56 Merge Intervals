@@ -9,4 +9,21 @@ class Solution:
             else:
                 merged[-1]=[merged[-1][0], max(merged[-1][1], interval[1])]  
         return merged
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda interval: interval[0])
+        n=len(intervals)
+        merged=[]
+        start, end = intervals[0]
+
+        for i in range(1,n):
+            start1,end1=intervals[i]
+            if end>=start1:
+                end=max(end, end1)
+            else:
+                merged.append([start,end]) 
+                start,end=start1,end1   
+        merged.append([start, end])        
+        return merged                
         
