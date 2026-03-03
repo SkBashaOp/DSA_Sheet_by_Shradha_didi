@@ -10,3 +10,28 @@ class Solution:
             nums[i],nums[j]=nums[j],nums[i]
         nums[i+1:]=reversed(nums[i+1:])
         return nums            
+
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        n = len(nums)
+        gola_index = -1
+        
+        for i in range(n - 1, 0, -1):
+            if nums[i] > nums[i-1]:
+                gola_index = i - 1
+                break
+        
+        if gola_index != -1:
+            swap_index = gola_index
+            for j in range(n - 1, gola_index, -1):
+                if nums[j] > nums[gola_index]:
+                    swap_index = j
+                    break
+            nums[gola_index], nums[swap_index] = nums[swap_index], nums[gola_index]
+        
+        left = gola_index + 1
+        right = n - 1
+        while left < right:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right -= 1            
