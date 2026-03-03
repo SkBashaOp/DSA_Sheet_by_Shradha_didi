@@ -1,0 +1,15 @@
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        mp = {0: 1}
+        result = 0
+        cumSum = 0
+        
+        for i in range(len(nums)):
+            cumSum += nums[i]
+            
+            if (cumSum - k) in mp:
+                result += mp[cumSum - k]
+                
+            mp[cumSum] = mp.get(cumSum, 0) + 1
+            
+        return result
