@@ -1,0 +1,49 @@
+class Solution:
+    def f(self,idx,nums: List[int],dp):
+        if idx==0:
+            return nums[idx]
+        if idx<0:
+            return 0
+        if dp[idx]!=-1:
+            return dp[idx]    
+        pick=self.f(idx-2,nums,dp)+nums[idx]
+        notpick=self.f(idx-1,nums,dp)+0
+
+        dp[idx] = max(pick,notpick)
+        return dp[idx]
+
+
+    def rob(self, nums: List[int]) -> int:
+        n=len(nums)
+        dp=[-1] * n
+        return self.f(n-1,nums,dp)
+
+
+##Tabulation
+
+def rob(self, nums: List[int]) -> int:
+        n=len(nums)
+        dp=[-1] * n
+        dp[0]=nums[0]
+        for i in range(1,n):
+            pick=nums[i]
+            if i>1:
+                pick+=dp[i-2]
+            notpick=dp[i-1]
+            dp[i]=max(pick,notpick)
+        return dp[n-1]
+
+##Space opti
+
+def rob(self, nums: List[int]) -> int:
+        n=len(nums)
+        prev=nums[0]
+        for i in range(1,n):
+            pick=nums[i]
+            if i>1:
+                pick+=prev2
+            notpick=prev
+            curr=max(pick,notpick)
+            prev2=prev
+            prev=curr
+        return prev
