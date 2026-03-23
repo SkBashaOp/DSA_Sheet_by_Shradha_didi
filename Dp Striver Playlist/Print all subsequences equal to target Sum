@@ -1,0 +1,21 @@
+def print_s(ind, ds, s, target_sum, arr, n):
+    if ind == n:
+        if s == target_sum:
+            print(*(ds if ds else ["{}"]))
+        return
+
+    ds.append(arr[ind])
+    s += arr[ind]
+    print_s(ind + 1, ds, s, target_sum, arr, n)
+
+    s -= arr[ind]
+    ds.pop()
+
+    print_s(ind + 1, ds, s, target_sum, arr, n)
+
+if __name__ == "__main__":
+    arr = [1, 2, 1]
+    n = 3
+    target_sum = 2
+    ds = []
+    print_s(0, ds, 0, target_sum, arr, n)
