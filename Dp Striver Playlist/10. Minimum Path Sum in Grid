@@ -1,0 +1,65 @@
+##Memo
+class Solution:
+    def minPath(self, i, j, grid, dp):
+        if i == 0 and j == 0:
+            return grid[0][0]
+        if i < 0 or j < 0:
+            return int(1e9)
+        if dp[i][j] != -1:
+            return dp[i][j]
+        up = grid[i][j] + self.minPath(i - 1, j, grid, dp)
+        left = grid[i][j] + self.minPath(i, j - 1, grid, dp)
+        dp[i][j] = min(up, left)
+        return dp[i][j]
+
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        dp = [[-1]*n for _ in range(m)]
+        return self.minPath(m - 1, n - 1, grid, dp)
+
+##Tabulation 
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        dp = [[0]*n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if i == 0 and j == 0:
+                    dp[i][j] = grid[i][j]
+                else:
+                    up = grid[i][j]
+                    if i > 0:
+                        up += dp[i-1][j]
+                    else:
+                        up += float('inf')
+                    
+                    left = grid[i][j]
+                    if j > 0:
+                        left += dp[i][j-1]
+                    else:
+                        left += float('inf')
+                    
+                    dp[i][j] = min(up, left)
+        
+        return dp[m-1][n-1]
+
+##Space opti
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        prev = [0]*n
+        
+        for i in range(m):
+            curr = [0]*n
+            for j in range(n):
+                if i == 0 and j == 0:
+                    curr[j] = grid[i][j]
+                else:
+                    up = grid[i][j] + (prev[j] if i > 0 else float('inf'))
+                    left = grid[i][j] + (curr[j-1] if j > 0 else float('inf'))
+                    curr[j] = min(up, left)
+            prev = curr
+        
+        return prev[n-1]
