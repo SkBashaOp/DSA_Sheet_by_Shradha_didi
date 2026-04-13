@@ -1,0 +1,19 @@
+from collections import deque
+
+class Solution:
+    def bfsOfGraph(self, V, adj):
+        bfs = []
+        vis = [False] * V
+        q = deque([0])
+        vis[0] = True
+        
+        while q:
+            node = q.popleft()
+            bfs.append(node)
+            
+            for it in adj[node]:
+                if not vis[it]:
+                    vis[it] = True
+                    q.append(it)
+                    
+        return bfs
