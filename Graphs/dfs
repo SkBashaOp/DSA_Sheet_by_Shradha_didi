@@ -1,0 +1,13 @@
+class Solution:
+    def dfsOfGraph(self, V, adj):
+        def dfs(node, vis, adj, ls):
+            vis[node] = True
+            ls.append(node)
+            for it in adj[node]:
+                if not vis[it]:
+                    dfs(it, vis, adj, ls)
+
+        vis = [False] * V
+        ls = []
+        dfs(0, vis, adj, ls)
+        return ls
